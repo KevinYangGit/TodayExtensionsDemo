@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "BFEThreeDTouchManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [BFEThreeDTouchManager setUpShortcutItem:application launchOptions:launchOptions];
+
     return YES;
 }
 
@@ -47,5 +50,15 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options {
+    [BFEThreeDTouchManager performAtionForTodayExtension];
+    return YES;
+}
+
+//手动发送通知
+-(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
+    
+    [BFEThreeDTouchManager performActionForShortcutItem:shortcutItem];
+}
 
 @end
