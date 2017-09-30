@@ -11,6 +11,9 @@
 #import "UIView+Additions.h"
 #import "TodayViewController.h"
 #import "NotificationNames.h"
+#import "StudentClientModel.h"
+#import <UIImageView+AFNetworking.h>
+#import <Masonry.h>
 
 @interface WidgetViewForiOSTEN()
 
@@ -56,6 +59,7 @@
         [self setUpSubViews];
         [self layoutSubViews];
         [self setUpEvents];
+        [self loadData];
     }
     return self;
 }
@@ -189,10 +193,26 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(widgetActiveDisplayModeDidChange:) name:AppExtensionWidgetActiveDisplayModeDidChangeNotification object:nil];
 }
 
+- (void)loadData {
+    [StudentClientModel globalTimelinePostsWithBlock:^(NSDictionary *posts, NSError *error) {
+        if ([posts isKindOfClass:[NSDictionary class]] && posts) {
+            StudentClientModel *mode = [[StudentClientModel alloc] init];
+            mode.ownerName = posts[@"ownerName"];
+            mode.resourceName = posts[@"resourceName"];
+            mode.recommendText = posts[@"recommendText"];
+            mode.resourcePicUrl = posts[@"resourcePicUrl"];
+        }
+    }];
+}
+
+- (void)dealResponseWithModel:(StudentClientModel *)studentClientModel {
+    _guideLabel.text = studentClientModel.recommendText;
+    [_imageView setImageWithURL:[NSURL URLWithString:studentClientModel.resourcePicUrl]];
+    _titleLabel.text = studentClientModel.resourceName;
+    _detailLabel.text = [NSString stringWithFormat:@"by %@", studentClientModel.recommendText];
+}
+
 - (void)tapAction {
-    
-    NSLog(@"%@", NSStringFromCGRect(self.frame));
-    
     [self clicked];
 }
 

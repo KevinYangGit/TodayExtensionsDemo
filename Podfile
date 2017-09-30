@@ -27,6 +27,7 @@ end
 target 'AppExtension' do
     pod 'AFNetworking', '~> 3.0'
     pod 'Masonry', '~> 1.0.0'
+    pod 'SDWebImage', '~> 3.7.1'
 end
 
 

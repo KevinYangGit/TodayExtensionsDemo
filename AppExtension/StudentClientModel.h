@@ -10,6 +10,13 @@
 
 @interface StudentClientModel : NSObject
 
+@property (nonatomic,copy) NSString *ownerName;
+@property (nonatomic,copy) NSString *resourceName;
+@property (nonatomic,copy) NSString *recommendText;
+@property (nonatomic,copy) NSString *resourcePicUrl;
+
++ (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSDictionary *posts, NSError *error))block;
+
 @end
 
 @interface StudentClientModel (NSCoding) <NSSecureCoding>
